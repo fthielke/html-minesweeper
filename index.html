@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Minesweeper</title>
+    <link type="text/css" rel="stylesheet" href="css/minesweeper.css"/>
+    <link href="https://fonts.googleapis.com/css?family=PT+Mono" rel="stylesheet">
+  </head>
+  <body>
+    <main>
+      <div id="minesweeper">
+        <div class="info">
+          <div class="elem time">
+            <p class="label">Time</p>
+            <p class="numbers">000</p>
+          </div>
+          <div class="elem"><button class="newgameButton" data-status="playing"></button></div>
+          <div class="elem mines">
+            <p class="label">Mines</p>
+            <p class="numbers">099</p>
+          </div>
+        </div>
+        <div class="field"></div>
+      </div>
+    </main>
+    <script src="js/vendor/jquery-3.1.1.min.js"></script>
+    <script src="js/minesweeper.js"></script>
+    <script>
+      minesweeper.init();
+    </script>
+  </body>
+</html>
