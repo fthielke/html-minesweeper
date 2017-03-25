@@ -55,12 +55,16 @@ var minesweeper = new function ($) {
 
             _wrapper.find('.info .time .label').html(this.languages[lang].time);
             _wrapper.find('.info .mines .label').html(this.languages[lang].mines);
+
+            let flag = $('#langSelect [data-lang=' + lang + ']');
+            let parent = flag.parent();
+            flag.detach().prependTo(parent);
         }
     };
 
     var _getAdjacentCells = function (i) {
-        var cells = [];
-        var borders = {
+        let cells = [];
+        let borders = {
             left: i % _cols === 0,
             right: i % _cols === _cols - 1,
             top: Math.floor(i / _cols) === 0,
@@ -98,7 +102,7 @@ var minesweeper = new function ($) {
         _newgameButton.attr('data-status', 'win');
         window.clearInterval(_timeIntervalId);
         _timeIntervalId = -1;
-        for (var i = 0; i < _field.length; i++) {
+        for (let i = 0; i < _field.length; i++) {
             if (_cells[i].is('[data-concealed]') && _cells[i].attr('data-icon') !== 'flag') {
                 _cells[i].attr('data-icon', 'flag');
                 _mineCounter = 0;
@@ -114,8 +118,8 @@ var minesweeper = new function ($) {
         _timeIntervalId = -1;
         _cells[cell].attr('data-icon', 'mine');
         _cells[cell].attr('data-explode', '');
-        var timeoutFunc = function (i) {
-            var found = false;
+        let timeoutFunc = function (i) {
+            let found = false;
             while (i < _field.length && !found) {
                 found = i !== cell && _field[i] === 'mine' && _cells[i].attr('data-icon') !== 'flag';
                 i++;
@@ -155,7 +159,7 @@ var minesweeper = new function ($) {
 
     var _mouseDownHandler = function (e) {
         if (minesweeper.active) {
-            var which = e.which === 3 ? 2 : (e.which === 1 ? 1 : 0);
+            let which = e.which === 3 ? 2 : (e.which === 1 ? 1 : 0);
             if (_clickTarget === e.data) {
                 _clickButton |= which;
             } else if (_clickTarget === -1) {
@@ -177,7 +181,7 @@ var minesweeper = new function ($) {
     };
 
     var _mouseUpHandler = function (e) {
-        var which = e.which === 3 ? 2 : (e.which === 1 ? 1 : 0);
+        let which = e.which === 3 ? 2 : (e.which === 1 ? 1 : 0);
         if (minesweeper.active && _clickButton !== 0 && _clickTarget !== -1 && (which === 1 || which === 2)) {
             if (_cells[_clickTarget].is('[data-clicked]')) {
                 _cells[_clickTarget].removeAttr('data-clicked');
@@ -222,17 +226,17 @@ var minesweeper = new function ($) {
                             _lose(e.data);
                         }
 
-                        var cells = _getAdjacentCells(e.data);
+                        let cells = _getAdjacentCells(e.data);
                         cells.push(e.data);
-                        var possible = true;
-                        for (var i of cells) {
+                        let possible = true;
+                        for (let i of cells) {
                             if (_field[i] === 'mine' && _cells[i].attr('data-icon') !== 'flag') {
                                 possible = false;
                                 break;
                             }
                         }
                         if (possible) {
-                            for (var i of cells) {
+                            for (let i of cells) {
                                 if (_cells[i].is('[data-concealed]') && _cells[i].attr('data-icon') !== 'flag') {
                                     _revealCell(i);
                                 }
@@ -254,7 +258,7 @@ var minesweeper = new function ($) {
     };
 
     this.padNumber = function (number, len) {
-        var str = String(number);
+        let str = String(number);
         while (str.length < len) {
             str = '0' + str;
         }
@@ -268,8 +272,8 @@ var minesweeper = new function ($) {
         _rows = rows;
         _mines = mines;
 
-        var i;
-        for (var m = 0; m < mines; m++) {
+        let i;
+        for (let m = 0; m < mines; m++) {
             do {
                 i = Math.floor(Math.random() * _field.length);
             } while (_field[i] === 'mine');
@@ -285,9 +289,9 @@ var minesweeper = new function ($) {
         _fieldElem.html('');
         _cells = new Array(cols * rows);
         i = 0;
-        for (var r = 0; r < rows; r++) {
-            var rowElem = $('<div class="row"></div>');
-            for (var c = 0; c < cols; c++) {
+        for (let r = 0; r < rows; r++) {
+            let rowElem = $('<div class="row"></div>');
+            for (let c = 0; c < cols; c++) {
                 _cells[i] = $('<div class="cell" data-concealed></div>').mousedown(i, _mouseDownHandler).mouseup(i, _mouseUpHandler).contextmenu(_contextmenuHandler);
                 rowElem.append(_cells[i]);
                 i++;
@@ -309,7 +313,7 @@ var minesweeper = new function ($) {
 
         _newgameButton.attr('data-status', 'playing');
 
-        var additionalStyles = [];
+        let additionalStyles = [];
 
         _wrapper.attr('data-cols', cols);
         if (typeof _columnStyles[cols] === 'undefined') {
@@ -318,22 +322,22 @@ var minesweeper = new function ($) {
             _columnStyles[cols] = true;
         }
 
-        var resolutionStr = String(cols / rows);
+        let resolutionStr = String(cols / rows);
         _wrapper.attr('data-res', resolutionStr);
         if (typeof _resolutionStyles[resolutionStr] === 'undefined') {
             additionalStyles.push('#minesweeper[data-res="' + resolutionStr + '"][data-scaleby=height] { width: calc((100vh - 10.75rem) * ' + (cols / rows) + '); }');
             _resolutionStyles[resolutionStr] = true;
         }
 
-        var sizeStr = cols + 'x' + rows;
+        let sizeStr = cols + 'x' + rows;
         if (typeof _sizeStyles[sizeStr] === 'undefined') {
             additionalStyles.push('#minesweeper[data-cols="' + cols + '"][data-res="' + resolutionStr + '"][data-scaleby=height] .field .row .cell[data-icon=number]::before {font-size: calc(((100vh - 10.75rem) * ' + (cols / rows) + ') / ' + cols + ' - 0.25rem); }');
             _sizeStyles[sizeStr] = true;
         }
 
         if (additionalStyles.length) {
-            var styles = '';
-            for (var style of additionalStyles) {
+            let styles = '';
+            for (let style of additionalStyles) {
                 styles += (styles === '' ? '' : ' ') + style;
             }
             $(document.head).append('<style type="text/css">' + styles + '</style>');
@@ -351,8 +355,8 @@ var minesweeper = new function ($) {
         _timeCounterElem = _wrapper.find('.info .time .numbers');
         _newgameButton = _wrapper.find('.newgameButton');
         _newgameButton.click(function () {
-            var modal = $('<div class="modal"><h2>' + minesweeper.languages[_curLanguage].newGame + '</h2></div>');
-            var controls = $('<div class="buttonRow"></div>');
+            let modal = $('<div class="modal"><h2>' + minesweeper.languages[_curLanguage].newGame + '</h2></div>');
+            let controls = $('<div class="buttonRow"></div>');
             controls.append($('<button>' + minesweeper.languages[_curLanguage].easy + '</button>').click(function () {
                 modalContainer.remove();
                 minesweeper.newGame(9, 9, 10);
@@ -366,10 +370,10 @@ var minesweeper = new function ($) {
                 minesweeper.newGame(32, 24, 120);
             }));
             modal.append(controls);
-            var form = $('<form><label>' + minesweeper.languages[_curLanguage].cols + '<input type="number" class="cols" value="' + _cols + '"/></label><label>' + minesweeper.languages[_curLanguage].rows + '<input type="number" class="rows" value="' + _rows + '"/></label><label>' + minesweeper.languages[_curLanguage].mines + '<input type="number" class="mines" value="' + _mines + '"/></label><button type="submit">' + minesweeper.languages[_curLanguage].custom + '</button></form>').submit(function (e) {
-                var cols = parseInt($(this).find('.cols').val());
-                var rows = parseInt($(this).find('.rows').val());
-                var mines = parseInt($(this).find('.mines').val());
+            let form = $('<form><label>' + minesweeper.languages[_curLanguage].cols + '<input type="number" class="cols" value="' + _cols + '"/></label><label>' + minesweeper.languages[_curLanguage].rows + '<input type="number" class="rows" value="' + _rows + '"/></label><label>' + minesweeper.languages[_curLanguage].mines + '<input type="number" class="mines" value="' + _mines + '"/></label><button type="submit">' + minesweeper.languages[_curLanguage].custom + '</button></form>').submit(function (e) {
+                let cols = parseInt($(this).find('.cols').val());
+                let rows = parseInt($(this).find('.rows').val());
+                let mines = parseInt($(this).find('.mines').val());
                 if (typeof cols === 'number' && cols > 0 && typeof rows === 'number' && rows > 0 && typeof mines === 'number' && mines > 0 && mines < cols * rows) {
                     modalContainer.remove();
                     minesweeper.newGame(cols, rows, mines);
@@ -383,7 +387,7 @@ var minesweeper = new function ($) {
                 }
             });
             modal.append(form);
-            var modalContainer = $('<div class="modalContainer"></div>').append(modal).click(function (e) {
+            let modalContainer = $('<div class="modalContainer"></div>').append(modal).click(function (e) {
                 if (e.pageX < modal.offset().left || e.pageX > modal.offset().left + modal.outerWidth() || e.pageY < modal.offset().top || e.pageY > modal.offset().top + modal.outerHeight()) {
                     modalContainer.remove();
                 }
@@ -392,13 +396,17 @@ var minesweeper = new function ($) {
         });
 
         if (_curLanguage === '') {
-            var lang = window.navigator.language.substr(0, 2).toLowerCase();
+            let lang = window.navigator.language.substr(0, 2).toLowerCase();
             if (typeof this.languages[lang] !== 'undefined') {
                 this.applyLanguage(lang);
             } else {
                 this.applyLanguage('en');
             }
         }
+
+        $('#langSelect [data-lang]').click(function () {
+            minesweeper.applyLanguage($(this).data('lang'));
+        });
 
         this.newGame(32, 24, 120);
 

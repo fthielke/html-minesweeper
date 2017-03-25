@@ -19,6 +19,89 @@ $numberColors: (
 
 @media screen {
 
+    main {
+        &::before, &::after {
+            content: "";
+            display: table;
+        }
+    }
+
+    #langSelect {
+        position: absolute;
+        top: 1rem;
+        left: 1rem;
+        display: block;
+        margin: 0;
+        padding: 0.5rem 1.75rem 0.5rem 0.5rem;
+        border: 1px solid #f0f0f0;
+        border-radius: 0.5rem;
+
+        &:hover {
+            border-color: #ccc;
+        }
+
+        #langsExpanded {
+            display: none;
+        }
+        [for=langsExpanded] {
+            position: absolute;
+            top: 0.66rem;
+            right: 0.5rem;
+            width: 0;
+            height: 0;
+            border: {
+                left: 0.375rem solid transparent;
+                right: 0.375rem solid transparent;
+                top: 0.5rem solid #000;
+            }
+            cursor: pointer;
+        }
+        #langsExpanded:checked + [for=langsExpanded] {
+            border: {
+                top: none;
+                bottom: 0.5rem solid #000;
+            }
+        }
+
+        ul {
+            margin: 0;
+            padding: 0;
+
+            [data-lang] {
+                display: none;
+                list-style: none;
+                width: 1.5rem;
+                padding-bottom: 66%;
+                height: 0;
+                margin-top: 0.5rem;
+                cursor: pointer;
+
+                &:first-of-type {
+                    margin-top: 0;
+                    display: block;
+                }
+            }
+
+            [data-lang=de] {
+                background: linear-gradient(to bottom, #000 0%, #000 (100% / 3), #f00 (100% / 3), #f00 (100% * 2 / 3), #f7f75e (100% * 2 / 3), #f7f75e 100%);
+            }
+            [data-lang=en] {
+                background-attachment: scroll;
+                background-clip: border-box;
+                background-color: transparent;
+                background-image: linear-gradient(26.6deg, #00247d 30%, transparent 29%, transparent 34%, #cf142b 34%, #cf142b 44%, transparent 44%, transparent 59%, #00247d 59%), linear-gradient(26.6deg, #00247d 40%, transparent 41%, transparent 56%, #cf142b 56%, #cf142b 66%, transparent 66%, transparent 71%, #00247d 71%), linear-gradient(-26.6deg, #00247d 40%, transparent 41%, transparent 46%, #cf142b 46%, #cf142b 56%, transparent 56%, transparent 71%, #00247d 71%), linear-gradient(-26.6deg, #00247d 29%, transparent 29%, transparent 44%, #cf142b 44%, #cf142b 54%, transparent 54%, transparent 59%, #00247d 59%), linear-gradient(to right, transparent 45%, #cf142b 45%, #cf142b 55%, transparent 55%), linear-gradient(to bottom, transparent 40%, #cf142b 40%, #cf142b 60%, transparent 60%);
+                background-origin: padding-box;
+                background-position: 0 0, 100% 100%, 0 100%, 100% 0, 0 0;
+                background-repeat: no-repeat;
+                background-size: 41.6% 33.3%, 41.6% 33.3%, 41.6% 33.3%, 41.6% 33.3%, 100% auto, 100% auto;
+            }
+        }
+
+        #langsExpanded:checked ~ ul [data-lang] {
+            display: block;
+        }
+    }
+
     #minesweeper {
         position: relative;
         background: #ccc none repeat scroll 0 0;
