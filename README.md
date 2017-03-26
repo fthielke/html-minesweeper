@@ -2,9 +2,9 @@
 A simple minesweeper game built using HTML, CSS and JavaScript.
 
 ## Usage
-Simply open [index.html](https://cdn.rawgit.com/fthielke/html-minesweeper/fbe86d05/index.html) in your browser to play.
+Simply open [index.html](https://cdn.rawgit.com/fthielke/html-minesweeper/357762f7/index.html) in your browser to play.
 
-Alternatively, you may use [minesweeper-standalone.html](minesweeper-standalone.html) which has all CSS, JS and image resources inlined so it can be used anywhere on its own.
+Alternatively, you may use (and download) [minesweeper-standalone.html](https://cdn.rawgit.com/fthielke/html-minesweeper/minesweeper-standalone.html) which has all CSS, JS and image resources inlined so it can be used anywhere on its own.
 
 ## Acknowledgements
 The game uses the following third-party works:
